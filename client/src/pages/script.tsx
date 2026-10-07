@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { z } from "zod";
 import {
   FileText, Sparkles, Loader2, Clock, Type, Copy, Check, RotateCcw,
   Download, RefreshCw, Image, X,
@@ -1066,7 +1067,7 @@ export default function ScriptPage() {
     setActionError(null);
   };
 
-  const form = useForm<ScriptInput>({
+  const form = useForm<z.input<typeof scriptInputSchema>, unknown, ScriptInput>({
     resolver: zodResolver(scriptInputSchema),
     defaultValues: {
       topic: "",

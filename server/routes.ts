@@ -106,7 +106,7 @@ export async function registerRoutes(
     } catch (error: any) {
       console.error("YouTube search error:", error);
       if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: "Invalid search parameters", details: error.errors });
+        return res.status(400).json({ error: "Invalid search parameters", details: error.issues });
       }
       const providerError = normalizeProviderError(error, "youtube");
       res.status(providerError.status).json(providerErrorPayload(providerError, "YouTube Data API"));
@@ -121,7 +121,7 @@ export async function registerRoutes(
     } catch (error: any) {
       console.error("Script generation error:", error);
       if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: "Invalid script input", details: error.errors });
+        return res.status(400).json({ error: "Invalid script input", details: error.issues });
       }
       const friendly = getUserFriendlyError(error, "Script generation");
       res.status(500).json({ error: friendly.message, suggestion: friendly.suggestion });
@@ -136,7 +136,7 @@ export async function registerRoutes(
     } catch (error: any) {
       console.error("Narration extraction error:", error);
       if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: "Invalid narration extraction request", details: error.errors });
+        return res.status(400).json({ error: "Invalid narration extraction request", details: error.issues });
       }
       const friendly = getUserFriendlyError(error, "Narration extraction");
       res.status(500).json({ error: friendly.message, suggestion: friendly.suggestion });
@@ -147,7 +147,7 @@ export async function registerRoutes(
     try {
       const parsed = ideaGenerationRequestSchema.safeParse(req.body);
       if (!parsed.success) {
-        return res.status(400).json({ error: "Invalid grounded idea request", details: parsed.error.errors });
+        return res.status(400).json({ error: "Invalid grounded idea request", details: parsed.error.issues });
       }
 
       const result = await generateIdeas(parsed.data);
@@ -167,7 +167,7 @@ export async function registerRoutes(
         return res.status(400).json({
           error: "A query and between 1 and 50 valid videos are required.",
           code: "RESEARCH_REQUEST_INVALID",
-          details: parsed.error.errors,
+          details: parsed.error.issues,
         });
       }
 
@@ -193,7 +193,7 @@ export async function registerRoutes(
     } catch (error: any) {
       console.error("Title regeneration error:", error);
       if (error instanceof z.ZodError) {
-        return res.status(400).json({ error: "Invalid title regeneration request", details: error.errors });
+        return res.status(400).json({ error: "Invalid title regeneration request", details: error.issues });
       }
       const friendly = getUserFriendlyError(error, "Title regeneration");
       res.status(500).json({ error: friendly.message, suggestion: friendly.suggestion });

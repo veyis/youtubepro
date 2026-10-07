@@ -1272,7 +1272,7 @@ export default function ResearchDashboard() {
                                 ))}
                               </Pie>
                               <Tooltip
-                                formatter={(value: number) => [`${value} videos`, "Sample"]}
+                                formatter={(value) => [`${value ?? 0} videos`, "Sample"]}
                                 contentStyle={{
                                   background: "hsl(var(--popover))",
                                   border: "1px solid hsl(var(--border))",
