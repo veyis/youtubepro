@@ -38,7 +38,7 @@ interface KeyFieldProps {
   label: string;
   description: string;
   configured: boolean;
-  inputRef: React.RefObject<HTMLInputElement>;
+  inputRef: React.RefObject<HTMLInputElement | null>;
   providerUrl: string;
   providerLabel: string;
   children?: ReactNode;
